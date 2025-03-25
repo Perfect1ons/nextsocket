@@ -1,9 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import SocketComponent from "@/components/SocketComponent";
 
 export default function Home() {
   return (
     <div className={styles.page}>
+      <SocketComponent/>
       <main className={styles.main}>
         <Image
           className={styles.logo}

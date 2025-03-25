@@ -5,21 +5,27 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "server": "ts-node server.ts",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "express": "^4.21.2",
+    "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/express": "^5.0.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }
