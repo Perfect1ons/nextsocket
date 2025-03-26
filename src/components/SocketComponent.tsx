@@ -22,7 +22,7 @@ const SocketComponent = () => {
 
     // Подключаемся к серверу
     const socketInstance = io(
-      "https://generator-hayes-himself-korea.trycloudflare.com",
+      "https://township-machinery-sticker-rochester.trycloudflare.com",
       {
         transports: ["websocket"], // Это ограничивает транспорт WebSocket.
         upgrade: false,
