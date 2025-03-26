@@ -32,7 +32,7 @@ const SocketComponent = () => {
 
     // Подключаемся к серверу
     const socketInstance = io(
-      "https://township-machinery-sticker-rochester.trycloudflare.com",
+      "https://buffalo-salt-blowing-recovered.trycloudflare.com",
       {
         transports: ["websocket"], // Это ограничивает транспорт WebSocket.
         upgrade: false,
@@ -94,7 +94,7 @@ const SocketComponent = () => {
           </p>
         </div>
       ) : (
-        <p>No messages received yet.</p>
+        <p>No messages</p>
       )}
     </div>
   );
