@@ -2,9 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+interface IMessageData {
+  payment_id: string;
+  order_id: string;
+  amount: string;
+  status: string;
+  created_at: string;
+  committed_at: string;
+  bank_op_date: string;
+}
+
 const SocketComponent = () => {
   const [socket, setSocket] = useState<any>(null);
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<IMessageData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,7 +45,7 @@ const SocketComponent = () => {
     socketInstance.emit("register", userId);
 
     // Слушаем сообщения от сервера
-    socketInstance.on("message", (msg: string) => {
+    socketInstance.on("message", (msg: IMessageData) => {
       console.log("Message from server:", msg);
       setMessage(msg);
     });
@@ -59,7 +69,33 @@ const SocketComponent = () => {
       <button onClick={sendMessage} disabled={!userId}>
         Send Message
       </button>
-      <p>Server Response: {message}</p>
+      {message ? (
+        <div>
+          <p>
+            <strong>Payment ID:</strong> {message.payment_id}
+          </p>
+          <p>
+            <strong>Order ID:</strong> {message.order_id}
+          </p>
+          <p>
+            <strong>Amount:</strong> {message.amount}
+          </p>
+          <p>
+            <strong>Status:</strong> {message.status}
+          </p>
+          <p>
+            <strong>Created At:</strong> {message.created_at}
+          </p>
+          <p>
+            <strong>Committed At:</strong> {message.committed_at}
+          </p>
+          <p>
+            <strong>Bank Op Date:</strong> {message.bank_op_date}
+          </p>
+        </div>
+      ) : (
+        <p>No messages received yet.</p>
+      )}
     </div>
   );
 };

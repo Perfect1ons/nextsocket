@@ -51,35 +51,45 @@ io.on("connection", (socket) => {
 
 // 📌 Эндпоинт для отправки сообщений через WebSocket
 app.post("/send-message", (req: any, res: any) => {
-  const { userId, message } = req.body;
+  const {
+    payment_id,
+    order_id,
+    amount,
+    status,
+    created_at,
+    committed_at,
+    bank_op_date,
+  } = req.body;
 
-  if (!message) {
+  // Проверяем, переданы ли все нужные поля
+  if (
+    !payment_id ||
+    !order_id ||
+    !amount ||
+    !status ||
+    !created_at ||
+    !committed_at ||
+    !bank_op_date
+  ) {
     return res
       .status(400)
-      .json({ success: false, message: "Message is required" });
+      .json({ success: false, message: "Missing required fields" });
   }
 
-  if (userId) {
-    // 📌 Если указан `userId`, отправляем только ему
-    const socketId = userSocketMap[userId];
+  // Отправляем данные через WebSocket всем подключенным клиентам
+  io.emit("message", {
+    payment_id,
+    order_id,
+    amount,
+    status,
+    created_at,
+    committed_at,
+    bank_op_date,
+  });
 
-    if (socketId) {
-      io.to(socketId).emit("message", message);
-      return res
-        .status(200)
-        .json({ success: true, message: `Message sent to user ${userId}` });
-    } else {
-      return res
-        .status(404)
-        .json({ success: false, message: `User ${userId} not found` });
-    }
-  } else {
-    // 📌 Если `userId` НЕ указан, отправляем всем
-    io.emit("message", message);
-    return res
-      .status(200)
-      .json({ success: true, message: "Message sent to all users" });
-  }
+  return res
+    .status(200)
+    .json({ success: true, message: "Message broadcasted", data: req.body });
 });
 
 // Сервер слушает порт 3001
